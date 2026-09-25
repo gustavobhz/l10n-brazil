@@ -13,9 +13,25 @@ class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
     def _load(self, template_code, company, install_demo, force_create=True):
-        result = super()._load(template_code, company, install_demo, force_create)
+        result = super()._load(
+            template_code,
+            company,
+            install_demo,
+            force_create,
+        )
+
         if company.currency_id == self.env.ref("base.BRL"):
-            self.load_fiscal_taxes([company])
+            allowed_company_ids = list(
+                self.env.context.get("allowed_company_ids", [])
+            )
+
+            if company.id not in allowed_company_ids:
+                allowed_company_ids.append(company.id)
+
+            self.with_context(
+                allowed_company_ids=allowed_company_ids
+            ).load_fiscal_taxes([company])
+
         return result
 
     def _get_demo_data_move(self, company=False):
