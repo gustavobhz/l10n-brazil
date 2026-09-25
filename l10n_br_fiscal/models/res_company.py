@@ -137,7 +137,7 @@ class ResCompany(models.Model):
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        default=TAX_FRAMEWORK_NORMAL,
+        default=TAX_FRAMEWORK_SIMPLES,
         compute="_compute_address",
         inverse="_inverse_tax_framework",
     )
