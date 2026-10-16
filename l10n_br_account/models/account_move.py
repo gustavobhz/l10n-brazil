@@ -299,6 +299,9 @@ class AccountMove(models.Model):
             move.amount_untaxed_signed = sign * sum(
                 inv_line_ids.mapped("fiscal_amount_untaxed")
             )
+            move.amount_untaxed_in_currency_signed = sign * sum(
+                inv_line_ids.mapped("fiscal_amount_untaxed")
+            )
             move.amount_tax_signed = sign * sum(
                 inv_line_ids.mapped("fiscal_amount_tax")
             )
